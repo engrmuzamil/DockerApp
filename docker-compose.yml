@@ -1,0 +1,22 @@
+version: '3.9'
+services:
+  db:
+    image: 'postgres:11'
+    container_name: "my_post"
+    environment:
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+  web:
+    build: .
+    command: python /code/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code
+    env_file: env
+    ports:
+      - 8000:8000
+      - 3000:3000 # debugging service (ptvsd)
+    depends_on:
+      - db
+volumes:
+  postgres_data: null

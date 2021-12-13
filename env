@@ -1,0 +1,6 @@
+DB_NAME=postgres
+DB_USER=postgres
+DB_PASS=postgres
+DB_SERVICE=db
+DB_PORT=5432
+RUN_MAIN=1
