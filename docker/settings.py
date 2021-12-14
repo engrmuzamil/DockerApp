@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-w(sd%@&c4es&rn0emkz-f8zj0xdf!n4_vcx-$ma2z^50v==vbb
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
-
+DEFAULT_FROM_EMAIL = 'admin@messier.com'
 # Application definition
 
 INSTALLED_APPS = [
@@ -36,8 +36,16 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'dockerapp.apps.DockerappConfig',
+    'users.apps.UsersConfig',
+    'pages.apps.PagesConfig',
+    'bookapp.apps.BookappConfig',
+    #Third Party
+    'django.contrib.sites',
+    'crispy_forms',  # new
+    'allauth',  # new
+    'allauth.account',  # new
 ]
-
+SITE_ID = 1
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -49,11 +57,12 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'docker.urls'
+import os
 
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -83,6 +92,7 @@ DATABASES = {
         'PORT': 5432
     }
 }
+
 # Password validation
 # https://docs.djangoproject.com/en/4.0/ref/settings/#auth-password-validators
 
@@ -118,9 +128,34 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
-
-STATIC_URL = 'static/'
-
+# bookstore_project/settings.py
+STATIC_URL = '/static/'
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+]
+LOGIN_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'
+CRISPY_TEMPLATE_PACK = 'bootstrap4'  # new
+AUTH_USER_MODEL = 'users.CustomerModel'  # new
+ACCOUNT_LOGOUT_REDIRECT = 'home'  # new
+ACCOUNT_SESSION_REMEMBER = True  # new
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+ACCOUNT_SIGNUP_PASSWORD_ENTER_TWICE = False  # new
+ACCOUNT_USERNAME_REQUIRED = False  # new
+ACCOUNT_AUTHENTICATION_METHOD = 'email'  # new
+ACCOUNT_EMAIL_REQUIRED = True  # new
+ACCOUNT_UNIQUE_EMAIL = True  # new
+MEDIA_URL = '/media/'  # new
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')  # new
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 

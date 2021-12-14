@@ -1,0 +1,19 @@
+{% extends '_base.html' %}
+
+{% block title%}
+{% endblock title%}
+
+{% block content%}
+<div>
+    <img class="book" src="{{ Book.cover.url}}" alt="{{Book.title}}">
+    <h3>{{Book.title}}</h3>
+    <h4>{{Book.price}}Rs.</h4>
+    <p>Author:{{Book.author}}</p>
+    <h3>Reviews</h3>
+        {% for review in Book.reviews.all %}
+        here
+        <li>{{ review.review }} ({{ review.author }})</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock content%}

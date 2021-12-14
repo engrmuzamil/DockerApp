@@ -16,7 +16,14 @@ Including another URLconf
 from django.conf.urls import include
 from django.contrib import admin
 from django.urls import path
+from django.conf import settings  # new
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', include("dockerapp.urls"))
-]
+    path('', include("dockerapp.urls")),
+    path('pages/', include("pages.urls")),
+    path('accounts/', include('allauth.urls')),  # new
+    path('accounts/', include('users.urls')),  # new
+    path('books/', include('bookapp.urls')),
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # new
